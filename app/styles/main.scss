@@ -1,0 +1,109 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+@import "colors.scss";
+
+.container {
+  background: $grey1;
+  padding: 120px 60px 60px;
+  margin: 100px auto;
+}
+
+header {
+  margin-bottom: 20px;
+}
+
+.tables-cont {
+  background: $white;
+  padding: 70px 30px;
+}
+
+.table-cont {
+  background: $grey1;
+  border: 25px solid $white;
+  position: relative;
+  margin-bottom: 100px;
+  padding: 50px;
+  text-align: center;
+
+  .up, .down {
+    width: 70px;
+    height: 40px;
+    position: absolute;
+    top: -40px;
+    left: 10%;
+    border: 1px solid $white;
+    border-radius: 40px 40px 0 0;
+    background: $grey1;
+    &.right {
+      right: 10%;
+      left: auto;
+    }
+    &:hover {
+      background-color: $blue;
+      cursor: pointer;
+    }
+    &.active {
+      background-color: $blue;
+    }
+  }
+
+  .down {
+    bottom: -40px;
+    top: auto;
+    border-radius: 0 0 40px 40px;
+  }
+
+}
+
+.employee-detail {
+  background-color: $white;
+  position: absolute;
+  top: 0;
+  left: 80px;
+  min-width: 300px;
+  border: 10px solid $black;
+  z-index: 1;
+  padding: 5px 10px;
+  box-sizing: content-box;
+  text-align: left;
+  .name {
+    font-size: 22px;
+    margin: 0;
+  }
+  img {
+    width: 60px;
+    float: left;
+    margin-right: 10px;
+  }
+}
+
+.filter {
+  margin-left: 10px;
+}
+
+.filter-cont {
+  background: $white;
+  border: 10px solid $black;
+  border-top: 15px solid $black;
+  display: inline-block;
+  float: right;
+  padding: 5px 20px;
+  z-index: 2;
+  margin-top: -15px;
+  margin-right: -25px;
+  position: relative;
+  span {
+    margin-right: 10px;
+    &.glyphicon-triangle-top{
+      position: absolute;
+      color: #fff;
+      top: -10px;
+      right: 0;
+    }
+  }
+}
+
+
