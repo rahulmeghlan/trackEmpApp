@@ -1,4 +1,4 @@
-# track-emp
+# track-emp-app
 To Start the project first install dependencies using 
 `npm install`
 then
