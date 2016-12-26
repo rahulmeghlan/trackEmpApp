@@ -8,23 +8,24 @@
  * Controller of the trackEmpApp
  */
 angular.module("trackEmpApp")
-  .controller("trackEmpCtrl", ['employees', function (employees) {
+  .controller("trackEmpCtrl", ['employees', '$timeout', '$scope', function (employees, $timeout, $scope) {
     var self = this,
-      selectedFilters = [];
+      selectedFilters = [],
+      empLocal = angular.copy(employees);
 
-    self.tableCount = new Array(Math.ceil(employees.length / 4));
-    self.teams = {};
+    self.checkLoggedIn = function () {
+      if (self.uname === "admin" && self.pwd === "admin") {
+        self.isLoggedIn = true;
 
-    self.tableData = {};
-    self.searchKey = "";
-    self.filters = ["role", "team", "project"];
-    self.showFilter = false;
-    self.filterVals = [];
-
+        $timeout(function () {
+          angular.element("#loginPopup").modal("hide"); // DOM has been accessed because data-dismiss is not allowing to call the checkLoggedIn function
+        }, 1000);
+      }
+    };
 
     self.searchEmployee = function () {
       if (self.searchKey.trim().length && self.searchKey.trim().length > 2) {
-        angular.forEach(employees, function (val) {
+        angular.forEach(empLocal, function (val) {
           val.active = val.name.trim().toLowerCase().match(self.searchKey.trim().toLowerCase()) !== null;
         });
       } else {
@@ -42,7 +43,7 @@ angular.module("trackEmpApp")
         angular.forEach(self.teams[filter], function (val, key) {
           self[key] = false;
           angular.forEach(val, function (index) {
-            employees[index].active = false;
+            empLocal[index].active = false;
           });
         });
         self.showSubFilter = false;
@@ -73,19 +74,19 @@ angular.module("trackEmpApp")
     function updateTableData() {
       resetFilters();
       angular.forEach(selectedFilters, function (index) {
-        employees[index].active = true;
+        empLocal[index].active = true;
       });
     }
 
     function resetFilters() {
-      angular.forEach(employees, function (val) {
+      angular.forEach(empLocal, function (val) {
         val.active = false;
       });
     }
 
     function setTeams() {
-      //Store Indexes of the filters from the employees array.
-      angular.forEach(employees, function (val, key) {
+      //Store Indexes of the filters from the empLocal array.
+      angular.forEach(empLocal, function (val, key) {
         for (var i = 0; i < self.filters.length; i++) {
           var filter = val[self.filters[i]];
           if (typeof self.teams[self.filters[i]] === "undefined") {
@@ -106,17 +107,41 @@ angular.module("trackEmpApp")
       for (var i = 0; i < self.tableCount.length; i++) {
         self.tableData[i] = [];
         for (var j = 0; j < 4; j++) {
-          self.tableData[i].push(employees[key]);
+          self.tableData[i].push(empLocal[key]);
           ++key;
         }
       }
     }
 
+    function bindEvents() {
+      var empListener = $scope.$on("updateEmp", function (evt, data) {
+        console.log(data);
+        empLocal = data;
+        initScopeItems(empLocal);
+      });
 
-    function init() {
+      $scope.$on("$destroy", empListener);
+    }
+
+    function initScopeItems(empLocal) {
+      self.tableCount = new Array(Math.ceil(empLocal.length / 4));
+      self.teams = {};
+      self.emp = empLocal;
+      self.tableData = {};
+      self.searchKey = "";
+      self.filters = ["role", "team", "project"];
+      self.showFilter = false;
+      self.filterVals = [];
+      self.isLoggedIn = false;
       setTableData();
       setTeams();
     }
 
-    init();
+
+    function init(empLocal) {
+      initScopeItems(empLocal);
+      bindEvents();
+    }
+
+    init(empLocal);
   }]);

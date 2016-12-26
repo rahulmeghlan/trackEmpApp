@@ -28,6 +28,10 @@
 <div class="tables-cont row">
   <div class="table-cont col-md-4" ng-repeat="table in employees.tableCount track by $index">
     <div class="employee"
+         draggable="true"
+         emp-drag
+         emp="employees"
+         emp-drop
          ng-class="{active: chair.active, up: $index <= 1, down: $index > 1, left: ($index%2 === 0), right: ($index%2 !== 0)}"
          ng-repeat="chair in employees.tableData[$index] track by $index" ng-mouseover="employees.showDetails(chair)"
          ng-mouseleave="employees.hideDetails(chair)">
@@ -42,5 +46,28 @@
       </div>
     </div>
     Table {{$index+1}}
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Login to change project location</h4>
+      </div>
+      <div class="modal-body">
+        <form class="input-group" ng-submit="employees.checkLoggedIn();">
+          <input type="text" name="username" ng-model="employees.uname" placeholder="Enter username" class="form-control"/>
+          <input type="password" name="password" ng-model="employees.pwd" placeholder="Enter password" class="form-control"/>
+          <button type="submit" class="btn btn-primary form-control">Save changes</button>
+        </form>
+      </div>
+      <div class="modal-footer" ng-show="employees.isLoggedIn">
+        <p>Successfully Logged, please start drag-drop now.</p>
+      </div>
+    </div>
   </div>
 </div>
