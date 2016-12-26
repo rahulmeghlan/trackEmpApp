@@ -117,7 +117,7 @@ angular.module("trackEmpApp")
       project: "Dell App Design",
       active: false,
       detailVisible: false,
-      image: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAANnAAAAJDIyMzk0NDVlLTkxMzctNGQ0OC1hZTRjLWQ3MjkyZjU2YTZmMA.jpg",
+      image: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAjCAAAAJDQyNTBmZGU0LThlNmMtNDUzMC1iNDM4LWJiYjAwMDAxYzhiOA.jpg",
       id: 11
     },
     {
