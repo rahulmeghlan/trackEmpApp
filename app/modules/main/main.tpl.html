@@ -32,7 +32,7 @@
          emp-drag="{{$parent.$index}}"
          emp="employees"
          emp-drop="{{$parent.$index}}"
-         ng-class="{active: chair.active, up: $index <= 1, down: $index > 1, left: ($index%2 === 0), right: ($index%2 !== 0)}"
+         ng-class="{vacant: chair.vacant,active: chair.active, up: $index <= 1, down: $index > 1, left: ($index%2 === 0), right: ($index%2 !== 0)}"
          ng-repeat="chair in employees.tableData[$index] track by $index" ng-mouseover="employees.showDetails(chair)"
          ng-mouseleave="employees.hideDetails(chair)">
       <div class="employee-detail" ng-if="chair.detailVisible">

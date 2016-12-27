@@ -11,7 +11,8 @@ angular.module("trackEmpApp")
   .controller("trackEmpCtrl", ['employees', '$timeout', '$scope', function (employees, $timeout, $scope) {
     var self = this,
       selectedFilters = [],
-      empLocal = angular.copy(employees);
+      empLocal = angular.copy(employees),
+      vacantSeatsLocation;
 
     self.checkLoggedIn = function () {
       if (self.uname === "admin" && self.pwd === "admin") {
@@ -26,7 +27,9 @@ angular.module("trackEmpApp")
     self.searchEmployee = function () {
       if (self.searchKey.trim().length && self.searchKey.trim().length > 2) {
         angular.forEach(empLocal, function (val) {
-          val.active = val.name.trim().toLowerCase().match(self.searchKey.trim().toLowerCase()) !== null;
+          if (!val.vacant) {
+            val.active = val.name.trim().toLowerCase().match(self.searchKey.trim().toLowerCase()) !== null;
+          }
         });
       } else {
         resetFilters();
@@ -53,11 +56,15 @@ angular.module("trackEmpApp")
     };
 
     self.hideDetails = function (val) {
-      val.detailVisible = false;
+      if (!val.vacant) {
+        val.detailVisible = false;
+      }
     };
 
     self.showDetails = function (val) {
-      val.detailVisible = true;
+      if (!val.vacant) {
+        val.detailVisible = true;
+      }
     };
 
     self.selectedFilterVals = function (val, event) {
@@ -107,8 +114,41 @@ angular.module("trackEmpApp")
       for (var i = 0; i < self.tableCount.length; i++) {
         self.tableData[i] = [];
         for (var j = 0; j < 4; j++) {
+          if (vacantSeatsLocation.indexOf(key) !== -1) {
+            empLocal.splice(key, 0, {vacant: true, id: key});
+            updateSeatLocation();
+          }
           self.tableData[i].push(empLocal[key]);
           ++key;
+        }
+      }
+    }
+
+    function updateSeatLocation() {
+      for (var i = 0; i < empLocal.length; i++) {
+        empLocal[i].id = (i + 1);
+      }
+    }
+
+    function updateEmployeeData() {
+      for (var i = 0; i < vacantSeatsLocation.length; i++) {
+        empLocal.push({vacant: true, id: empLocal.length});
+      }
+    }
+
+    function setEmptySeats() {
+      var totalSeats = self.tableCount.length * 4,
+        totalVacantSeats = totalSeats - employees.length;
+      vacantSeatsLocation = [];
+      for (var i = 0; i < totalVacantSeats; i++) {
+        checkDuplicateSeat(Math.floor(Math.random() * totalSeats));
+      }
+
+      function checkDuplicateSeat(seatNumber) {
+        if (vacantSeatsLocation.indexOf(seatNumber) === -1) {
+          vacantSeatsLocation.push(seatNumber);
+        } else {
+          checkDuplicateSeat(Math.floor(Math.random() * totalSeats))
         }
       }
     }
@@ -124,7 +164,7 @@ angular.module("trackEmpApp")
     }
 
     function initScopeItems(empLocal) {
-      self.tableCount = new Array(Math.ceil(empLocal.length / 4));
+      self.tableCount = new Array(6);
       self.teams = {};
       self.emp = empLocal;
       self.tableData = {};
@@ -133,8 +173,10 @@ angular.module("trackEmpApp")
       self.showFilter = false;
       self.filterVals = [];
       self.isLoggedIn = false;
-      setTableData();
       setTeams();
+      setEmptySeats();
+      updateEmployeeData();
+      setTableData();
     }
 
 
