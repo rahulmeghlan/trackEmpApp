@@ -47,6 +47,7 @@ angular.module("trackEmpApp")
           self[key] = false;
           angular.forEach(val, function (index) {
             empLocal[index].active = false;
+            selectedFilters.splice(selectedFilters.indexOf(index), 1);
           });
         });
         self.showSubFilter = false;
