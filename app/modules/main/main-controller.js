@@ -115,8 +115,8 @@ angular.module("trackEmpApp")
 
     function bindEvents() {
       var empListener = $scope.$on("updateEmp", function (evt, data) {
-        console.log(data);
-        empLocal = data;
+        empLocal = data.empData;
+        self.notificationMsg = data.notificationMsg;
         initScopeItems(empLocal);
       });
 

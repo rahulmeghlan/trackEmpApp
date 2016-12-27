@@ -7,8 +7,14 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 .container {
   background: $grey1;
-  padding: 120px 60px 60px;
+  padding: 120px 60px 20px;
   margin: 100px auto;
+}
+
+.notification{
+  margin-top: 20px;
+  background: darkgrey;
+  color: $white;
 }
 
 header {
@@ -117,6 +123,18 @@ header {
       color: green;
     }
   }
+}
+
+.fade-in{
+  visibility: visible;
+  transition: all linear 100ms;
+  opacity: 1;
+}
+
+.fade-out{
+  visibility: hidden;
+  transition: all linear 100ms;
+  opacity: 0;
 }
 
 

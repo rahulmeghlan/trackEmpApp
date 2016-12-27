@@ -29,9 +29,9 @@
   <div class="table-cont col-md-4" ng-repeat="table in employees.tableCount track by $index">
     <div class="employee"
          draggable="true"
-         emp-drag
+         emp-drag="{{$parent.$index}}"
          emp="employees"
-         emp-drop
+         emp-drop="{{$parent.$index}}"
          ng-class="{active: chair.active, up: $index <= 1, down: $index > 1, left: ($index%2 === 0), right: ($index%2 !== 0)}"
          ng-repeat="chair in employees.tableData[$index] track by $index" ng-mouseover="employees.showDetails(chair)"
          ng-mouseleave="employees.hideDetails(chair)">
@@ -49,6 +49,10 @@
   </div>
 </div>
 
+<!-- Notification -->
+<div class="alert notification" role="alert" ng-bind="employees.notificationMsg"
+     ng-class="{'fade-in':employees.notificationMsg.length, 'fade-out':!employees.notificationMsg.length}"></div>
+
 <!-- Login Modal -->
 <div class="modal fade" id="loginPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -60,8 +64,10 @@
       </div>
       <div class="modal-body">
         <form class="input-group" ng-submit="employees.checkLoggedIn();">
-          <input type="text" name="username" ng-model="employees.uname" placeholder="Enter username" class="form-control"/>
-          <input type="password" name="password" ng-model="employees.pwd" placeholder="Enter password" class="form-control"/>
+          <input type="text" name="username" ng-model="employees.uname" placeholder="Enter username"
+                 class="form-control"/>
+          <input type="password" name="password" ng-model="employees.pwd" placeholder="Enter password"
+                 class="form-control"/>
           <button type="submit" class="btn btn-primary form-control">Save changes</button>
         </form>
       </div>
@@ -71,3 +77,5 @@
     </div>
   </div>
 </div>
+
+
