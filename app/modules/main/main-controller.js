@@ -96,15 +96,17 @@ angular.module("trackEmpApp")
       //Store Indexes of the filters from the empLocal array.
       angular.forEach(empLocal, function (val, key) {
         for (var i = 0; i < self.filters.length; i++) {
-          var filter = val[self.filters[i]];
-          if (typeof self.teams[self.filters[i]] === "undefined") {
-            self.teams[self.filters[i]] = {};
-            self.teams[self.filters[i]][filter] = [key];
-          } else if (typeof self.teams[self.filters[i]][filter] === "undefined") {
-            self.teams[self.filters[i]][filter] = [key];
-          }
-          else {
-            self.teams[self.filters[i]][filter].push(key);
+          if (!val.vacant) {
+            var filter = val[self.filters[i]];
+            if (typeof self.teams[self.filters[i]] === "undefined") {
+              self.teams[self.filters[i]] = {};
+              self.teams[self.filters[i]][filter] = [key];
+            } else if (typeof self.teams[self.filters[i]][filter] === "undefined") {
+              self.teams[self.filters[i]][filter] = [key];
+            }
+            else {
+              self.teams[self.filters[i]][filter].push(key);
+            }
           }
         }
       });
@@ -161,6 +163,7 @@ angular.module("trackEmpApp")
         empLocal = data.empData;
         self.notificationMsg = data.notificationMsg;
         console.time("setTableData");
+        setTeams();
         setTableData();
         console.timeEnd("setTableData");
       });
@@ -178,10 +181,10 @@ angular.module("trackEmpApp")
       self.showFilter = false;
       self.filterVals = [];
       self.isLoggedIn = false;
-      setTeams();
       setEmptySeats();
       updateEmployeeData();
       setTableData();
+      setTeams();
     }
 
 

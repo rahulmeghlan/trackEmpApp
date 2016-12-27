@@ -11,16 +11,16 @@
   <span ng-repeat="filter in employees.filters">
             <input type="checkbox" name="{{filter}}" ng-value="filter"
                    ng-click="employees.toggleSubFilter(filter, $event)"/>
-                <label for="{{filter}}">{{filter}}</label>
+                <label for="{{filter}}">{{filter | addSpace}}</label>
 
             </span>
 
   <!-- Sub Filter -->
   <div class="sub-filter" ng-if="employees.showSubFilter">
             <span ng-repeat="(key,val) in employees.filterVals">
-            <input type="checkbox" name="{{key}}" ng-value="key" ng-checked="employees[key]"
+            <input type="checkbox" name="{{key}}" ng-value="key | addSpace" ng-checked="employees[key]"
                    ng-click="employees.selectedFilterVals(key, $event)"/>
-                          <label for="{{key}}">{{key}}</label>
+                          <label for="{{key}}">{{key | addSpace}}</label>
             </span>
   </div>
 
