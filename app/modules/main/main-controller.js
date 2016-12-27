@@ -116,6 +116,8 @@ angular.module("trackEmpApp")
         for (var j = 0; j < 4; j++) {
           if (vacantSeatsLocation.indexOf(key) !== -1) {
             empLocal.splice(key, 0, {vacant: true, id: key});
+            empLocal.pop();
+            vacantSeatsLocation.splice(vacantSeatsLocation.indexOf(key), 1);
             updateSeatLocation();
           }
           self.tableData[i].push(empLocal[key]);
@@ -157,7 +159,8 @@ angular.module("trackEmpApp")
       var empListener = $scope.$on("updateEmp", function (evt, data) {
         empLocal = data.empData;
         self.notificationMsg = data.notificationMsg;
-        initScopeItems(empLocal);
+        setTeams();
+        setTableData();
       });
 
       $scope.$on("$destroy", empListener);
