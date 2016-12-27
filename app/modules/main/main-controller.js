@@ -159,8 +159,9 @@ angular.module("trackEmpApp")
       var empListener = $scope.$on("updateEmp", function (evt, data) {
         empLocal = data.empData;
         self.notificationMsg = data.notificationMsg;
-        setTeams();
+        console.time("setTableData");
         setTableData();
+        console.timeEnd("setTableData");
       });
 
       $scope.$on("$destroy", empListener);
